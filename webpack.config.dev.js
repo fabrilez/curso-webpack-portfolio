@@ -2,10 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin')
 const DotEnv = require('dotenv-webpack')
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin') cambiamos esto por el flag clean en la configuracion de output colocandolo como true
+
 module.exports = {
   // Entry nos permite decir el punto de entrada de nuestra aplicación
   entry: "./src/index.js",
@@ -16,9 +14,10 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     // filename le pone el nombre al archivo final
     filename: "[name].[contenthash].js",
-    assetModuleFilename: 'assets/images/[hash][ext][query]',
-    clean: true,
+    assetModuleFilename: 'assets/images/[hash][ext][query]'
   },
+  mode: 'development',
+  watch: true,
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
     extensions: [".js"],
@@ -84,14 +83,5 @@ module.exports = {
       ]
     }),
     new DotEnv(),
-    // new CleanWebpackPlugin(),
   ],
-  optimization: {
-    //terser hace una version simplificada de nuestro js y cssminimizer de css
-    minimize: true,
-    minimizer: [
-      new CssMinimizerPlugin(),
-      new TerserPlugin(),
-    ]
-  }
 }
